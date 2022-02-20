@@ -7,6 +7,7 @@ package com.jmc.algorithm.weekProblem.class_2022_02_3_week;
  **/
 public class Code01_Test {
     public static void main(String[] args) {
-        System.out.println("test!");
+        System.out.println("test begin!");
+        System.out.println("test end!");
     }
 }
