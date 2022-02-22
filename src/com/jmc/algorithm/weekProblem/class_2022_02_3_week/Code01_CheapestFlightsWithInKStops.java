@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * 测试链接：https://leetcode-cn.com/problems/cheapest-flights-within-k-stops/
+ *
  * @Author jmc
  * @Description
  * @Date 2022/2/20 11:53
@@ -47,19 +48,47 @@ public class Code01_CheapestFlightsWithInKStops {
         return cost[dst] != Integer.MAX_VALUE ? cost[dst] : -1;
     }
 
+    // Bellman Ford
+    public static int findCheapestPrice2(int n, int[][] flights, int src, int dst, int k) {
+        if (flights == null || flights.length == 0 || flights[0].length == 0) {
+            return -1;
+        }
+
+        int[] cost = new int[n];
+        Arrays.fill(cost, Integer.MAX_VALUE);
+        cost[src] = 0;
+
+        for (int i = 0; i <= k; i++) {
+            int[] next = Arrays.copyOf(cost, n);
+            for (int[] line : flights) {
+                int from = line[0];
+                int to = line[1];
+                int curCost = line[2];
+                if (cost[from] != Integer.MAX_VALUE) {
+                    next[to] = Math.min(next[to], cost[from] + curCost);
+                }
+            }
+            cost = next;
+        }
+
+        return cost[dst] != Integer.MAX_VALUE ? cost[dst] : -1;
+    }
+
     public static void main(String[] args) {
-        int n = 3;
+        int n = 4;
         int[][] flights = new int[][]{
-                {0, 1, 100},
-                {1, 2, 100},
-                {0, 2, 500}
+                {0, 1, 1},
+                {0, 2, 5},
+                {1, 2, 1},
+                {2, 3, 1}
         };
         int src = 0;
-        int dst = 2;
-        int k = 0;
+        int dst = 3;
+        int k = 1;
 
         System.out.println("test start...");
         System.out.println(findCheapestPrice(n, flights, src, dst, k));
+        System.out.println(findCheapestPrice2(n, flights, src, dst, k));
         System.out.println("test end...");
     }
 }
