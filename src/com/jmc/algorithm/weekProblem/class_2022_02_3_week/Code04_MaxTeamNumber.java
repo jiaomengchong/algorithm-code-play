@@ -28,7 +28,10 @@ public class Code04_MaxTeamNumber {
 
         // 不要index位置
         int p1 = process(arr, num, k, index + 1);
-        int p2 = process(arr, num, k, index + 1) + (index >= k ? ((arr[index] - arr[index - k + 1]) <= num ? 1 : 0) : 0);
+        int p2 = process(arr, num, k, index + 1);
+        if (index >= k - 1) {
+            p2 += arr[index] - arr[index - k + 1] <= num ? 1 : 0;
+        }
         return Math.max(p1, p2);
     }
 
