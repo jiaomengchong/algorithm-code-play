@@ -17,25 +17,22 @@ public class Code02_NearBiggerNoSameNeighbour {
         // 678 -> 679
         // 100 -> 101
         // 999 -> 1010
-        boolean changed = false;
-        String str = String.format("0%s", num);
+        String str = String.format("0%s", num + 1);
         char[] chars = str.toCharArray();
-        process(chars, changed);
+        process(chars);
         return Integer.valueOf(String.valueOf(chars));
     }
 
-    private static void process(char[] str, boolean changed) {
+    private static void process(char[] str) {
         for (int i = 1; i < str.length; i++) {
             if (str[i - 1] == str[i]) {
                 addOne(str, i);
                 // i后面全部刷成0 比如0998 ->1008 -> 1000
-                if (!changed) {
-                    for (int j = i + 1; j < str.length; j++) {
-                        str[j] = '0';
-                    }
-                    changed = true;
+                for (int j = i + 1; j < str.length; j++) {
+                    str[j] = '0';
                 }
-                process(str, changed);
+                process(str);
+                return;
             }
         }
     }
