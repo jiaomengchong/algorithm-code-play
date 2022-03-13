@@ -43,9 +43,9 @@ public class Code04_NumberOfDescendingTriples {
     private static int rank(int num, int[] sorted) {
         int ans = 0;
         int L = 0;
-        int R = sorted.length;
+        int R = sorted.length - 1;
         int mid;
-        while (L < R) {
+        while (L <= R) {
             mid = (L + R) / 2;
             if (sorted[mid] >= num) {
                 ans = mid;
