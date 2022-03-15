@@ -46,19 +46,21 @@ public class Code05_GroupOfStrings {
             for (int j = 0; j < 26; j++) {
                 int numSub = nums[i];
                 if ((nums[i] & (1 << j)) != 0) {
-                    numSub |= 1 << j;
+                    numSub ^= 1 << j;
                     uf.union(indexMap.get(numSub), i);
                 }
             }
 
             // 替换一个字符
             for (int j = 0; j < 26; j++) {
-                int num = nums[i];
-                int temp = (~nums[i]) & ((1 << 26) - 1);
-                System.out.println(print(temp));
-                if ((temp & (1 << j)) != 0) {
-                    num |= 1 << j;
-                    uf.union(indexMap.get(num), i);
+                if ((nums[i] & (1 << j)) != 0) {
+                    // 000000...001110
+                    // 000000...001100
+                    int temp = nums[i] ^ (1 << j);
+                    for (int k = 0; k < 26; k++) {
+                        int num = temp | (1 << k);
+                        uf.union(indexMap.get(num), i);
+                    }
                 }
             }
         }
