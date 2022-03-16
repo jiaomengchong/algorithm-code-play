@@ -55,7 +55,6 @@ public class Code05_GroupOfStrings {
             for (int j = 0; j < 26; j++) {
                 int num = nums[i];
                 int temp = (~nums[i]) & ((1 << 26) - 1);
-                System.out.println(print(temp));
                 if ((temp & (1 << j)) != 0) {
                     num |= 1 << j;
                     uf.union(indexMap.get(num), i);
@@ -64,6 +63,61 @@ public class Code05_GroupOfStrings {
         }
 
         return new int[]{uf.sets(), uf.maxinum()};
+    }
+
+    public static int[] groupStrings1(String[] words) {
+        int N = words.length;
+        if (words == null || N == 0) {
+            return new int[]{};
+        }
+
+        UnionFind uf = new UnionFind(N);
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        int[] nums = new int[N];
+        for (int i = 0; i < N; i++) {
+            char[] chars = words[i].toCharArray();
+            for (char ch : chars) {
+                nums[i] |= 1 << (ch - 'a');
+            }
+            if (indexMap.containsKey(nums[i])) {
+                uf.union(indexMap.get(nums[i]), i);
+            } else {
+                indexMap.put(nums[i], i);
+            }
+        }
+
+        for (int i = 0; i < N; i++) {
+            // 增加一个字符
+            // 000000...00000100
+            // 000000...11111011
+            // 000000...00000001
+            int num = nums[i];
+            int tempNo = (~num) & ((1 << 26) - 1);
+            int tempRightOne = tempNo & (-tempNo);
+            while (tempRightOne != 0) {
+                uf.union(indexMap.get(num | tempRightOne), i);
+                tempNo ^= tempRightOne;
+                tempRightOne = tempNo & (-tempNo);
+            }
+
+            // 减少一个字符
+            // 000000...00001100
+            // 000000...00001000
+            int tempSub = num;
+            int rightOne = tempSub & (-tempSub);
+            while (rightOne != 0) {
+                uf.union(indexMap.get(num ^ rightOne), i);
+                tempSub ^= rightOne;
+                rightOne = tempSub & (-tempSub);
+            }
+
+            // 替换一个字符
+            // 000000...00001100
+            // 000000...11110011
+
+        }
+
+        return new int[]{};
     }
 
     public static class UnionFind {
@@ -150,6 +204,9 @@ public class Code05_GroupOfStrings {
         }
         System.out.println("groupOfString start ...");
         System.out.println(Arrays.toString(groupStrings(words)));
+
+        System.out.println(print(28));
+        System.out.println(0 & (-0));
     }
 
     public static String print(int num) {
