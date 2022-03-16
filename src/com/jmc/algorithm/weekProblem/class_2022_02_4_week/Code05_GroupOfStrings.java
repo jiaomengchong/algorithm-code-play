@@ -46,29 +46,19 @@ public class Code05_GroupOfStrings {
             for (int j = 0; j < 26; j++) {
                 int numSub = nums[i];
                 if ((nums[i] & (1 << j)) != 0) {
-                    numSub ^= 1 << j;
+                    numSub |= 1 << j;
                     uf.union(indexMap.get(numSub), i);
                 }
             }
 
             // 替换一个字符
             for (int j = 0; j < 26; j++) {
-<<<<<<< HEAD
-                int num = nums[i];
-                int temp = (~nums[i]) & ((1 << 26) - 1);
-                if ((temp & (1 << j)) != 0) {
-                    num |= 1 << j;
-                    uf.union(indexMap.get(num), i);
-=======
                 if ((nums[i] & (1 << j)) != 0) {
-                    // 000000...001110
-                    // 000000...001100
                     int temp = nums[i] ^ (1 << j);
                     for (int k = 0; k < 26; k++) {
                         int num = temp | (1 << k);
                         uf.union(indexMap.get(num), i);
                     }
->>>>>>> a76dc5aa0272d49d1dd95c474c6e7ad0c17b9a5c
                 }
             }
         }
@@ -76,18 +66,17 @@ public class Code05_GroupOfStrings {
         return new int[]{uf.sets(), uf.maxinum()};
     }
 
-    public static int[] groupStrings1(String[] words) {
+    public static int[] groupStrings2(String[] words) {
         int N = words.length;
         if (words == null || N == 0) {
             return new int[]{};
         }
 
-        UnionFind uf = new UnionFind(N);
         Map<Integer, Integer> indexMap = new HashMap<>();
+        UnionFind uf = new UnionFind(N);
         int[] nums = new int[N];
         for (int i = 0; i < N; i++) {
-            char[] chars = words[i].toCharArray();
-            for (char ch : chars) {
+            for (char ch : words[i].toCharArray()) {
                 nums[i] |= 1 << (ch - 'a');
             }
             if (indexMap.containsKey(nums[i])) {
@@ -99,36 +88,50 @@ public class Code05_GroupOfStrings {
 
         for (int i = 0; i < N; i++) {
             // 增加一个字符
-            // 000000...00000100
-            // 000000...11111011
-            // 000000...00000001
+            // 000000...00001010
+            // 111111...11110101 取反
+            // 000000...11110101 取反 & (1 << 26 - 1)
+            // 000000...00000001 最右侧的1
             int num = nums[i];
             int tempNo = (~num) & ((1 << 26) - 1);
             int tempRightOne = tempNo & (-tempNo);
             while (tempRightOne != 0) {
-                uf.union(indexMap.get(num | tempRightOne), i);
+                uf.union(i, indexMap.get(num | tempRightOne));
                 tempNo ^= tempRightOne;
                 tempRightOne = tempNo & (-tempNo);
             }
 
             // 减少一个字符
-            // 000000...00001100
-            // 000000...00001000
-            int tempSub = num;
-            int rightOne = tempSub & (-tempSub);
-            while (rightOne != 0) {
-                uf.union(indexMap.get(num ^ rightOne), i);
-                tempSub ^= rightOne;
-                rightOne = tempSub & (-tempSub);
+            // 000000...00010001
+            // 000000...00000001 最右侧的1
+            // 000000...00010000 最右侧的1 ^  num就相当于扣掉了1
+            int sub = num;
+            int subRightOne = sub & (-sub);
+            while (subRightOne != 0) {
+                uf.union(i, indexMap.get(num ^ subRightOne));
+                sub ^= subRightOne;
+                subRightOne = sub & (-sub);
             }
 
             // 替换一个字符
-            // 000000...00001100
-            // 000000...11110011
-
+            // 000000...10001010
+            // 000000...01110101
+            int tempReplace = num;
+            int replaceNo = (~num) & ((1 << 26) - 1);
+            int rightOne = num & (-num);
+            while (rightOne != 0) {
+                tempReplace ^= rightOne;
+                int tempReplaceNo = replaceNo;
+                int replaceRightOne = tempReplaceNo & (-tempReplaceNo);
+                while (replaceRightOne != 0) {
+                    uf.union(i, indexMap.get((num ^ rightOne) | replaceRightOne));
+                    tempReplaceNo ^= replaceRightOne;
+                    replaceRightOne = tempReplaceNo & (-tempReplaceNo);
+                }
+                rightOne = tempReplace & (-tempReplace);
+            }
         }
-
-        return new int[]{};
+        return new int[]{uf.sets(), uf.maxinum()};
     }
 
     public static class UnionFind {
@@ -199,7 +202,7 @@ public class Code05_GroupOfStrings {
     }
 
     public static void main(String[] args) {
-        String[] words = new String[]{"b", "q"};
+        String[] words = new String[]{"accd","ab","abc"};
         int N = words.length;
         int[] num = new int[N];
         for (int i = 0; i < N; i++) {
@@ -215,9 +218,13 @@ public class Code05_GroupOfStrings {
         }
         System.out.println("groupOfString start ...");
         System.out.println(Arrays.toString(groupStrings(words)));
+        System.out.println(Arrays.toString(groupStrings2(words)));
 
-        System.out.println(print(28));
-        System.out.println(0 & (-0));
+        int test = 28;
+        int rightOne = test & (-test);
+        System.out.println(print(test));
+        System.out.println(print(rightOne));
+        System.out.println(print(test ^ rightOne));
     }
 
     public static String print(int num) {
