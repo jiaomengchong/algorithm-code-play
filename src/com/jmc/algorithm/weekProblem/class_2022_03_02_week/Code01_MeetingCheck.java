@@ -50,7 +50,7 @@ public class Code01_MeetingCheck {
         }
 
         private void add(int L, int R, int C, int l, int r, int rt) {
-            if (l <= L && R >= r) {
+            if (L <= l && R >= r) {
                 // 全包情况
                 sum[rt] += (r - l + 1) * C;
                 lazy[rt] += C;
@@ -116,14 +116,14 @@ public class Code01_MeetingCheck {
             }
             int mid = (l + r) >> 1;
             pushDown(mid - l + 1, r - mid, rt);
+            int ans = 0;
             if (L <= mid) {
-                query(L, R, l, mid, rt << 1);
+                ans += query(L, R, l, mid, rt << 1);
             }
             if (R > mid) {
-                query(L, R, mid + 1, r, rt << 1 | 1);
+                ans += query(L, R, mid + 1, r, rt << 1 | 1);
             }
-            pushUp(rt);
-            return sum[rt];
+            return ans;
         }
     }
 
