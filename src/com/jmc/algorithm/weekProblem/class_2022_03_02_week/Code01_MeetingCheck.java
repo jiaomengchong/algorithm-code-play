@@ -1,5 +1,7 @@
 package com.jmc.algorithm.weekProblem.class_2022_03_02_week;
 
+import java.util.Arrays;
+
 /**
  * 来自字节飞书团队
  * 在字节跳动，大家都使用飞书的日历功能进行会议室的预订，遇到会议高峰时期，
@@ -24,7 +26,52 @@ package com.jmc.algorithm.weekProblem.class_2022_03_02_week;
 public class Code01_MeetingCheck {
 
     public static boolean[] reserveMeetings(int m, int[][] meetings) {
-        return new boolean[]{};
+        int n = meetings.length;
+        // 针对会议开始时间、结束时间排名预处理，为了给线段树节省空间
+        int[] ranks = new int[n << 1];
+        for (int i = 0; i < n; i++) {
+            ranks[i] = meetings[i][1];
+            ranks[i + n] = meetings[i][2] - 1;
+        }
+        Arrays.sort(ranks);
+
+        int[][] rankMeetings = new int[n][4];
+        int max = 0;
+        for (int i = 0; i < n; i++) {
+            rankMeetings[i][0] = i;
+            rankMeetings[i][1] = meetings[i][0];
+            rankMeetings[i][2] = rank(ranks, meetings[i][1]);
+            rankMeetings[i][3] = rank(ranks, meetings[i][2] - 1);
+            max = Math.max(max, rankMeetings[i][3]);
+        }
+
+        Arrays.sort(rankMeetings, (a, b) -> a[1] - b[1]);
+        SegmentTree1 st = new SegmentTree1(max);
+        boolean[] ans = new boolean[n];
+        for (int[] rankMeeting : rankMeetings) {
+            if (st.max(rankMeeting[2], rankMeeting[3]) < m) {
+                ans[rankMeeting[0]] = true;
+                st.add(rankMeeting[2], rankMeeting[3], 1);
+            }
+        }
+
+        return ans;
+    }
+
+    private static int rank(int[] ranks, int value) {
+        int l = 0;
+        int r = ranks.length;
+        int ans = 0;
+        while (l < r) {
+            int mid = (l + r) >> 1;
+            if (ranks[mid] >= value) {
+                ans = mid;
+                r = mid - 1;
+            } else {
+                l = mid + 1;
+            }
+        }
+        return ans + 1;
     }
 
     public static class SegmentTree {
@@ -226,12 +273,16 @@ public class Code01_MeetingCheck {
             pushUp(rt);
         }
 
+        private int max(int L, int R) {
+            return max(L, R, 1, N, 1);
+        }
+
         private int max(int L, int R, int l, int r, int rt) {
             if (L <= l && r <= R) {
                 // 全包
                 return max[rt];
             }
-            int mid = (l + r >> 1);
+            int mid = (l + r) >> 1;
             pushDown(mid - l + 1, r - mid, rt);
             int ans = 0;
             if (L <= mid) {
@@ -257,5 +308,21 @@ public class Code01_MeetingCheck {
         segmentTree.update(1, 3, 1, 1, 6, 1);
         int querySegment = segmentTree.query(1, 3, 1, 6, 1);
         System.out.println(querySegment);
+
+        // 测试离散化
+        int[] discretization = new int[]{300, 101, 34, 1009, 2, 45, 6};
+        Arrays.sort(discretization);
+        System.out.println(Arrays.toString(discretization));
+        System.out.println(rank(discretization, 1008));
+
+        // 测试预定会议室
+        int[][] meetings = new int[][]{
+                {10, 600, 720},
+                {9, 650, 700},
+                {1, 840, 870},
+                {2, 860, 900}
+        };
+        int m = 1;
+        System.out.println(Arrays.toString(reserveMeetings(m, meetings)));
     }
 }
