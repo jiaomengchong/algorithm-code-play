@@ -10,7 +10,7 @@ import java.util.Map;
  * 只不过，难度差距绝对值不超过k的任务，可以在一天之内都完成
  * 返回完成所有任务的最少天数
  */
-public class Code05_JobMinDays {
+public class Code06_JobMinDays {
     public static int ways1(int[] arr, int k) {
         if (arr.length == 0 || arr == null) {
             return 0;
@@ -82,10 +82,38 @@ public class Code05_JobMinDays {
         return ans;
     }
 
+    public static int ways3(int[] arr, int k) {
+        if (arr == null || arr.length == 0) {
+            return 0;
+        }
+        int N = arr.length;
+        int[] dp = new int[N];
+        dp[0] = 1;
+        for (int i = 1; i < N; i++) {
+            int p1 = dp[i - 1] + 1;
+            int p2 = Integer.MAX_VALUE;
+            int max = arr[i];
+            int min = arr[i];
+            for (int j = i - 1; j >= 0; j--) {
+                max = Math.max(max, arr[j]);
+                min = Math.min(min, arr[j]);
+                if (max - min <= k) {
+                    p2 = Math.min(p2, 1 + (j - 1 >= 0 ? dp[j - 1] : 0));
+                } else {
+                    break;
+                }
+            }
+            dp[i] = Math.min(p1, p2);
+        }
+
+        return dp[N - 1];
+    }
+
     public static void main(String[] args) {
-        int[] arr = new int[]{10, 9};
-        int k = 8;
+        int[] arr = new int[]{3, 7, 4, 7, 9};
+        int k = 3;
         System.out.println(ways1(arr, k));
         System.out.println(ways2(arr, k));
+        System.out.println(ways3(arr, k));
     }
 }
