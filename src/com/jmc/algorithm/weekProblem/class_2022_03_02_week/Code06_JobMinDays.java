@@ -109,6 +109,8 @@ public class Code06_JobMinDays {
         return dp[N - 1];
     }
 
+    // TODO 优化:一维动态规划
+
     public static void main(String[] args) {
         int[] arr = new int[]{3, 7, 4, 7, 9};
         int k = 3;
