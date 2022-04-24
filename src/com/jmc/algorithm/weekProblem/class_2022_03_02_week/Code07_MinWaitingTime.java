@@ -21,11 +21,44 @@ public class Code07_MinWaitingTime {
         return serviceQueue.peek()[0];
     }
 
-    // TODO 二分答案
+    // 二分答案(最优解)
+    public static int ways2(int[] arr, int m) {
+        // arr = [2, 3, 5] 在6时刻范围内，他们分别能服务多少人
+        // 2：0-2 2-4 4-6 6-8 能服务4个人
+        // 3：0-3 3-6 6-9     能服务3个人
+        // 5：0-5 5-10        能服务2个人
+        // 由此可以看出，服务人数 = 时刻/arr[i]
+        // 最好情况就是服务员人数大于客户人数m，所有客户不需要等待，在0时刻就可以得到服务
+        // 最坏情况就是2这个服务员服务整个客户，最大等待时间就是2*m
+        int best = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length; i++) {
+            best = Math.min(arr[i], best);
+        }
+        int ans = 0;
+        int left = 0;
+        int right = best * m;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            int cover = 0;
+            for (int st : arr) {
+                cover += (mid / st) + 1;
+            }
+            if (cover > m) {
+                // 去左边二分
+                right = mid - 1;
+                ans = mid;
+            } else {
+                // 去右边二分
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
 
     public static void main(String[] args) {
-        int[] arr = new int[]{2, 3, 5};
-        int m = 16;
+        int[] arr = new int[]{2, 3, 5, 7, 9, 11};
+        int m = 88;
         System.out.println(ways1(arr, m));
+        System.out.println(ways2(arr, m));
     }
 }
