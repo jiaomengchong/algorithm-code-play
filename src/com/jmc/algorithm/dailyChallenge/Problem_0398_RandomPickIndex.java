@@ -42,10 +42,33 @@ public class Problem_0398_RandomPickIndex {
         }
     }
 
+    // hashMap代码精简版本
+    public static class Solution1 {
+        private Map<Integer, List<Integer>> position;
+        private Random random;
+
+        public Solution1(int[] nums) {
+            position = new HashMap<>();
+            random = new Random();
+            for (int i = 0; i < nums.length; i++) {
+                position.putIfAbsent(nums[i], new ArrayList<>());
+                position.get(nums[i]).add(i);
+            }
+        }
+
+        public int pick(int target) {
+            List<Integer> indicates = position.get(target);
+            return indicates.get(random.nextInt(indicates.size()));
+        }
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 2, 3, 3, 3};
         // pick(3) 应该返回索引 2,3 或者 4。每个索引的返回概率应该相等。
         Solution solution = new Solution(nums);
-        System.out.println(solution.pick(2));
+        System.out.println(solution.pick(3));
+
+        Solution1 solution1 = new Solution1(nums);
+        System.out.println(solution1.pick(3));
     }
 }
