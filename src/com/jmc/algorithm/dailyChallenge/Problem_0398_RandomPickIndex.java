@@ -62,13 +62,41 @@ public class Problem_0398_RandomPickIndex {
         }
     }
 
+    // 水塘抽样解法
+    public static class Solution2 {
+        private int[] nums;
+        private Random random;
+
+        public Solution2(int[] nums) {
+            this.nums = nums;
+            random = new Random();
+        }
+
+        public int pick(int target) {
+            int ans = 0;
+            int cnt = 0;
+            for (int i = 0; i < nums.length; i++) {
+                if (nums[i] == target) {
+                    cnt++;
+                    if (random.nextInt(cnt) == 0) {
+                        ans = i;
+                    }
+                }
+            }
+            return ans;
+        }
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{1, 2, 3, 3, 3};
         // pick(3) 应该返回索引 2,3 或者 4。每个索引的返回概率应该相等。
         Solution solution = new Solution(nums);
-        System.out.println(solution.pick(3));
+        System.out.println(solution.pick(2));
 
         Solution1 solution1 = new Solution1(nums);
-        System.out.println(solution1.pick(3));
+        System.out.println(solution1.pick(2));
+
+        Solution2 solution2 = new Solution2(nums);
+        System.out.println(solution2.pick(2));
     }
 }
