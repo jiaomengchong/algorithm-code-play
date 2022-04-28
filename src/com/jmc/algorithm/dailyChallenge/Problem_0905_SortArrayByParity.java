@@ -63,15 +63,37 @@ public class Problem_0905_SortArrayByParity {
         return ans;
     }
 
+    // 常数项优化:1次遍历得答案 双指针
+    public static int[] sortArrayByParity3(int[] nums) {
+        int[] ans = new int[nums.length];
+        if (nums == null || nums.length == 0) {
+            return ans;
+        }
+
+        int left = 0;
+        int right = nums.length - 1;
+        for (int i = 0; i < nums.length; i++) {
+            if ((nums[i] & 1) == 0) {
+                ans[left++] = nums[i];
+            } else {
+                ans[right--] = nums[i];
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         int[] nums = new int[]{3, 1, 2, 4};
         int[] ans = sortArrayByParity(nums);
         int[] ans2 = sortArrayByParity2(nums);
+        int[] ans3 = sortArrayByParity3(nums);
         System.out.println(Arrays.toString(ans));
         System.out.println(Arrays.toString(ans2));
+        System.out.println(Arrays.toString(ans3));
 
         nums = new int[]{0};
         System.out.println(Arrays.toString(sortArrayByParity(nums)));
         System.out.println(Arrays.toString(sortArrayByParity2(nums)));
+        System.out.println(Arrays.toString(sortArrayByParity3(nums)));
     }
 }
