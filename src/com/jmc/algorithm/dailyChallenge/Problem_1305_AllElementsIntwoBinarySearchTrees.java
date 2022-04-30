@@ -45,6 +45,45 @@ public class Problem_1305_AllElementsIntwoBinarySearchTrees {
         inOrderTraversal(root.right);
     }
 
+    public List<Integer> getAllElements1(TreeNode root1, TreeNode root2) {
+        List<Integer> list1 = new ArrayList<>();
+        List<Integer> list12 = new ArrayList<>();
+        inOrder(root1, list1);
+        inOrder(root2, list12);
+
+        // 合并
+        List<Integer> ans = new ArrayList<>();
+        int index1 = 0;
+        int index2 = 0;
+        while (true) {
+            if (list1.size() == index1) {
+                ans.addAll(list12.subList(index2, list12.size()));
+                break;
+            }
+            if (list12.size() == index2) {
+                ans.addAll(list1.subList(index1, list1.size()));
+                break;
+            }
+            if (list1.get(index1) < list12.get(index2)) {
+                ans.add(list1.get(index1++));
+            } else {
+                ans.add(list12.get(index2++));
+            }
+        }
+
+        return ans;
+    }
+
+    private void inOrder(TreeNode root, List<Integer> list) {
+        if (root == null) {
+            return;
+        }
+
+        inOrder(root.left, list);
+        list.add(root.val);
+        inOrder(root.right, list);
+    }
+
     public static void main(String[] args) {
         TreeNode root1 = new TreeNode(2);
         root1.left = new TreeNode(1);
@@ -57,5 +96,8 @@ public class Problem_1305_AllElementsIntwoBinarySearchTrees {
         Problem_1305_AllElementsIntwoBinarySearchTrees test = new Problem_1305_AllElementsIntwoBinarySearchTrees();
         List<Integer> ans = test.getAllElements(root1, root2);
         System.out.println(ans);
+
+        List<Integer> ans1 = test.getAllElements1(root1, root2);
+        System.out.println(ans1);
     }
 }
