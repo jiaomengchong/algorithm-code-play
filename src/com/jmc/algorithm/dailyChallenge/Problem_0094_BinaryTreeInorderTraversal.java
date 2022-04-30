@@ -27,6 +27,7 @@ public class Problem_0094_BinaryTreeInorderTraversal {
         }
     }
 
+    // 递归版本
     public List<Integer> inorderTraversal(TreeNode root) {
         List<Integer> ans = new ArrayList<>();
         dfs(root, ans);
@@ -40,6 +41,10 @@ public class Problem_0094_BinaryTreeInorderTraversal {
             dfs(root.right, ans);
         }
     }
+
+    // TODO 迭代版本
+
+    // TODO Morris遍历版本
 
     public static void main(String[] args) {
 
