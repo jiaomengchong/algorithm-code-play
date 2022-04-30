@@ -11,20 +11,7 @@ public class Problem_0067_AddBinary {
         return Long.toBinaryString(sum);
     }
 
-    private static long decimal(String s) {
-        char[] str = s.toCharArray();
-        int N = str.length;
-        int index = 0;
-        long ans = 0;
-        for (int i = N - 1; i >= 0; i--) {
-            if (str[i] == '1') {
-                ans += 1 << index;
-            }
-            index++;
-        }
 
-        return ans;
-    }
 
     public static void main(String[] args) {
         //     "10100000100100110110010000010101111011011001101110111111111101000000101111001110001111100001101"
