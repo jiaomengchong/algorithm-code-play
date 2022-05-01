@@ -52,10 +52,49 @@ public class Problem_0006_ZigzagConversion {
         return (a + b - 1) / b;
     }
 
+    public static String convert1(String s, int numRows) {
+        if (numRows == 1 || s.length() <= numRows) {
+            return s;
+        }
+
+        // PAYPALISHIRING
+        // 3列
+        // P   A   H   N
+        // A P L S I I G
+        // Y   I   R
+
+        // 4列
+        // P     I    N
+        // A   L S  I G
+        // Y A   H R
+        // P     I
+        StringBuffer[] sb = new StringBuffer[numRows];
+        for (int i = 0; i < numRows; i++) {
+            sb[i] = new StringBuffer();
+        }
+
+        int cycle = (numRows << 1) - 2;
+        int x = 0;
+        for (int i = 0; i < s.length(); i++) {
+            sb[x].append(s.charAt(i));
+            if (i % cycle < numRows - 1) {
+                x++;
+            } else {
+                x--;
+            }
+        }
+
+        StringBuffer ans = new StringBuffer();
+        for (StringBuffer buffer : sb) {
+            ans.append(buffer);
+        }
+        return ans.toString();
+    }
+
     public static void main(String[] args) {
         String s = "PAYPALISHIRING";
-        int numRows = 1;
+        int numRows = 4;
         System.out.println(convert(s, numRows));
-        System.out.println(roundedUp(16, 5));
+        System.out.println(convert1(s, numRows));
     }
 }
