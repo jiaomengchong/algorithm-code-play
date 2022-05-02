@@ -43,13 +43,7 @@ public class Problem_0008_StringToIntegerAtoi {
     }
 
     public static boolean check(char ch) {
-        if (ch == '0' || ch == '1' || ch == '2' ||
-                ch == '3' || ch == '4' || ch == '5' ||
-                ch == '6' || ch == '7' || ch == '8' || ch == '9') {
-            return true;
-        } else {
-            return false;
-        }
+        return ch >= '0' && ch <= '9';
     }
 
     public static void main(String[] args) {
