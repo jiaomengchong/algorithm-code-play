@@ -1,9 +1,13 @@
 package com.jmc.algorithm.dailyChallenge;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 测试链接：https://leetcode-cn.com/problems/roman-to-integer/
  */
 public class Problem_0013_RomanToInteger {
+    // 硬编码
     public static int romanToInt(String s) {
         if (s == null || s.length() == 0) {
             return 0;
@@ -71,8 +75,38 @@ public class Problem_0013_RomanToInteger {
         return ans;
     }
 
+    // 优化
+    static Map<Character, Integer> roman = new HashMap<>();
+    static {
+        roman.put('I', 1);
+        roman.put('V', 5);
+        roman.put('X', 10);
+        roman.put('L', 50);
+        roman.put('C', 100);
+        roman.put('D', 500);
+        roman.put('M', 1000);
+    }
+
+    public static int romanToInt1(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+
+        int N = s.length();
+        int ans = 0;
+        for (int i = 0; i < N; i++) {
+            if (i + 1 < N && roman.get(s.charAt(i)) < roman.get(s.charAt(i + 1))) {
+                ans -= roman.get(s.charAt(i));
+            } else {
+                ans += roman.get(s.charAt(i));
+            }
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
         String s = "CDXCVIII";
         System.out.println(romanToInt(s));
+        System.out.println(romanToInt1(s));
     }
 }
