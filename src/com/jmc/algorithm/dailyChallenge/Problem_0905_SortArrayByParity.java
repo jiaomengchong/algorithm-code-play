@@ -63,6 +63,7 @@ public class Problem_0905_SortArrayByParity {
         return ans;
     }
 
+<<<<<<< Updated upstream
     // 常数项优化:1次遍历得答案 双指针
     public static int[] sortArrayByParity3(int[] nums) {
         int[] ans = new int[nums.length];
@@ -82,6 +83,9 @@ public class Problem_0905_SortArrayByParity {
         return ans;
     }
 
+=======
+    public static int[] sortArrayByParity2(int[] nums)
+>>>>>>> Stashed changes
     public static void main(String[] args) {
         int[] nums = new int[]{3, 1, 2, 4};
         int[] ans = sortArrayByParity(nums);
