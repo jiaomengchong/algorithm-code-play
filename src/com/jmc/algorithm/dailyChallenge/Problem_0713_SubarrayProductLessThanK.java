@@ -37,9 +37,30 @@ public class Problem_0713_SubarrayProductLessThanK {
         return ans;
     }
 
+    public static int numSubarrayProductLessThanK1(int[] nums, int k) {
+        if (nums == null || nums.length == 0 || k <= 1) {
+            return 0;
+        }
+
+        int left = 0, right = 0;
+        int product = 1;
+        int ans = 0;
+        while (right < nums.length) {
+            product *= nums[right];
+            while (product >= k) {
+                product /= nums[left];
+                left++;
+            }
+            ans += right - left + 1;
+            right++;
+        }
+        return ans;
+    }
+
     public static void main(String[] args) {
-        int[] nums = new int[]{10,5,2,6};
-        int k = 0;
+        int[] nums = new int[]{1,1,1};
+        int k = 1;
         System.out.println(numSubarrayProductLessThanK(nums, k));
+        System.out.println(numSubarrayProductLessThanK1(nums, k));
     }
 }
