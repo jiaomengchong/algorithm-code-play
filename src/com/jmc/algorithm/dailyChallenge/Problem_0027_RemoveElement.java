@@ -41,15 +41,38 @@ public class Problem_0027_RemoveElement {
         return nums[left] != val ? left + 1 : left;
     }
 
+    // 优化精简代码
+    public static int removeElement1(int[] nums, int val) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+
+        // 输入：nums = [3,2,2,3], val = 3
+        // 输出：2, nums = [2,2]
+        int left = 0;
+        int right = nums.length;
+        while (left < right) {
+            if (nums[left] == val) {
+                nums[left] = nums[--right];
+            } else {
+                left++;
+            }
+        }
+        return left;
+    }
+
     private static void swap(int[] nums, int left, int right) {
         int tmp = nums[left];
         nums[left] = nums[right];
         nums[right] = tmp;
     }
 
+
+
     public static void main(String[] args) {
-        int[] nums = new int[]{3,3};
-        int val = 3;
+        int[] nums = new int[]{0,1,2,2,3,0,4,2};
+        int val = 2;
         System.out.println(removeElement(nums, val));
+        System.out.println(removeElement1(nums, val));
     }
 }
