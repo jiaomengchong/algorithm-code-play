@@ -128,7 +128,7 @@ public class Code03_StickersToSpellWord {
     public static void main(String[] args) {
         String target = "travelbell";
         String[] arr = {"heavy", "claim", "seven", "set", "had", "it", "dead", "jump", "design", "question", "sugar", "dress", "any", "special", "ground", "huge", "use", "busy", "prove", "there", "lone", "window", "trip", "also", "hot", "choose", "tie", "several", "be", "that", "corn", "after", "excite", "insect", "cat", "cook", "glad", "like", "wont", "gray", "especially", "level", "when", "cover", "ocean", "try", "clean", "property", "root", "wing"};
-//        System.out.println(minStickers1(arr, target));
+//        System.out.println(minStickers2(arr, target));
         System.out.println(minStickers2(arr, target));
 
         int[] counts = new int[26];
