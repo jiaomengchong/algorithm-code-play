@@ -38,9 +38,36 @@ public class Problem_0900_RleIterator {
         }
     }
 
+    public static class RLEIterator1 {
+        private int[] decoding;
+        private int index;
+        private int delIndex;
+
+        public RLEIterator1(int[] encoding) {
+            decoding = encoding;
+            index = 0;
+            delIndex = 0;
+        }
+
+        public int next(int n) {
+            while (index < decoding.length) {
+                if (delIndex + n <= decoding[index]) {
+                    delIndex += n;
+                    return decoding[index + 1];
+                } else {
+                    n -= decoding[index] - delIndex;
+                    delIndex = 0;
+                    index += 2;
+                }
+            }
+            return -1;
+        }
+    }
+
     public static void main(String[] args) {
+        // [8,8,8,5,5]
         int[] encoding = new int[]{3, 8, 0, 9, 2, 5};
-        RLEIterator iterator = new RLEIterator(encoding);
+        RLEIterator1 iterator = new RLEIterator1(encoding);
         System.out.println(iterator.next(2));
         System.out.println(iterator.next(1));
         System.out.println(iterator.next(1));
