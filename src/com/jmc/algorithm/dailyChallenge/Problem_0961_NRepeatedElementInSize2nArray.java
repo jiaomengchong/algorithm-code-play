@@ -36,61 +36,22 @@ public class Problem_0961_NRepeatedElementInSize2nArray {
         return -1;
     }
 
-//    private static int getKthNum(int[] nums, int k) {
-//        int[] arr = copyOfNums(nums);
-//        return process(arr, 0, arr.length - 1, k - 1);
-//    }
-//
-//    private static int process(int[] arr, int L, int R, int k) {
-//        int pivot = L + (int)(Math.random() * (R - L + 1));
-//        int[] ranges = partition(arr, L, R, arr[pivot]);
-//        if (ranges[0] <= k && k <= ranges[1]) {
-//            return arr[ranges[0]];
-//        } else if (k < ranges[0]) {
-//            return process(arr, L, ranges[0] - 1, k);
-//        } else {
-//            return process(arr, ranges[1] + 1, R, k);
-//        }
-//    }
-//
-//    private static int[] partition(int[] arr, int l, int r, int pivot) {
-//        int less = l - 1;
-//        int more = r + 1;
-//        int cur = l;
-//        if (l == r) {
-//            return new int[]{l, l};
-//        }
-//
-//        // 2,1,2,5,3,2
-//        while (cur < more) {
-//            if (arr[cur] < pivot) {
-//                swap(arr, ++less, cur++);
-//            } else if (arr[cur] > pivot) {
-//                swap(arr, --more, cur);
-//            } else {
-//                cur++;
-//            }
-//        }
-//        return new int[]{less + 1, more - 1};
-//    }
-//
-//    private static void swap(int[] arr, int i, int j) {
-//        int tmp = arr[i];
-//        arr[i] = arr[j];
-//        arr[j] = tmp;
-//    }
-//
-//    private static int[] copyOfNums(int[] nums) {
-//        int[] arr = new int[nums.length];
-//        for (int i = 0; i < nums.length; i++) {
-//            arr[i] = nums[i];
-//        }
-//        return arr;
-//    }
+    public static int repeatedNTimes3(int[] nums) {
+        int N = nums.length;
+        int index1, index2;
+        while (true) {
+            index1 = (int) (Math.random() * N);
+            index2 = (int) (Math.random() * N);
+            if (index1 != index2 && nums[index1] == nums[index2]) {
+                return nums[index1];
+            }
+        }
+    }
 
     public static void main(String[] args) {
         int[] nums = new int[]{9,5,3,3};
         System.out.println(repeatedNTimes(nums));
         System.out.println(repeatedNTimes2(nums));
+        System.out.println(repeatedNTimes3(nums));
     }
 }
