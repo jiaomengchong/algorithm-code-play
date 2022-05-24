@@ -21,11 +21,8 @@ public class Problem_0046_Permutations {
     }
 
     private static void dfs(int[] nums, int index, boolean[] visited, List<List<Integer>> ans, List<Integer> path) {
-        if (path.size() == nums.length) {
-            ans.add(new ArrayList<>(path));
-            return;
-        }
         if (index == nums.length) {
+            ans.add(new ArrayList<>(path));
             return;
         }
 
