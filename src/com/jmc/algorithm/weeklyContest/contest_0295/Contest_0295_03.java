@@ -1,5 +1,6 @@
 package com.jmc.algorithm.weeklyContest.contest_0295;
 
+import java.util.Map;
 import java.util.Stack;
 
 /**
@@ -7,18 +8,19 @@ import java.util.Stack;
  */
 public class Contest_0295_03 {
     public static int totalSteps(int[] nums) {
-        // 输入：nums = [5,3,4,4,7,3,6,11,8,5,11]
+        // 输入：nums = [7,14,4,14,13,2,6,13]
         // 输出：3
-        Stack<Integer> stack = new Stack<>();
+        Stack<int[]> stack = new Stack<>();
         int N = nums.length;
         int ans = 0;
         for (int i = N - 1; i >= 0; i--) {
             int steps = 0;
-            while (!stack.isEmpty() && stack.peek() < nums[i]) {
-                ans = Math.max(ans, ++steps);
-                stack.pop();
+            while (!stack.isEmpty() && stack.peek()[0] < nums[i]) {
+                int[] pop = stack.pop();
+                steps = Math.max(steps + 1, pop[1]);
             }
-            stack.push(nums[i]);
+            stack.push(new int[]{nums[i], steps});
+            ans = Math.max(ans, steps);
         }
         return ans;
     }
