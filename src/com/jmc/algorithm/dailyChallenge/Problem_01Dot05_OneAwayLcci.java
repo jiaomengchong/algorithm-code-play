@@ -37,7 +37,7 @@ public class Problem_01Dot05_OneAwayLcci {
         for (int i = 1; i <= N; i++) {
             for (int j = 1; j <= M; j++) {
                 // 1) dp[i][j]，变成dp[i][j-1] + a
-                // 2) dp[i][j]，变成dp[i-1][j] + d
+                // 2) dp[i][j]，变成dp[i-1][j] + deque
                 // 3) dp[i][j]，i==j，dp[i-1][j-1]
                 // 4) dp[i][j]，i!=j，dp[i-1][j-1] + r
                 dp[i][j] = dp[i - 1][j - 1] + (first.charAt(i - 1) == second.charAt(j - 1) ? 0 : rep);
