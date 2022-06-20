@@ -53,16 +53,38 @@ public class Contest_0298_03 {
         return ans;
     }
 
+    public static int longestSubsequence1(String s, int k) {
+        // 输入：s = "1001010", k = 5 [101]
+        // 输出：5
+        String sk = Integer.toBinaryString(k);
+        int ans = sk.length() - 1;
+        int N = s.length();
+        if (N < sk.length()) {
+            return N;
+        }
+        if (s.substring(N - sk.length()).compareTo(sk) <= 0) {
+            ans++;
+        }
+
+        int zeroCount = 0;
+        for (int i = N - sk.length() - 1; i >= 0; i--) {
+            if (s.charAt(i) == '0') {
+                zeroCount++;
+            }
+        }
+        return ans + zeroCount;
+    }
 
     public static void main(String[] args) {
         // "000101010011011001011101111000111111100001011000000100010000111100000011111001000111100111101001111001011101001011011101001011011001111111010011100011110111010000010000010111001001111101100001111"
         //300429827
-        String s = "000101010011011001011101111000111111100001011000000100010000111100000011111001000111100111101001111001011101001011011101001011011001111111010011100011110111010000010000010111001001111101100001111";
-        int k = 300429827;
+        // "0111101"
+        // 518459120
+        String s = "0111101";
+        int k = 518459120;
         System.out.println(longestSubsequence(s, k));
 
-        StringBuffer sb = new StringBuffer("100000");
-        System.out.println(getDecimal(sb));
+        System.out.println(longestSubsequence1(s, k));
     }
 
 

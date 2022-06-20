@@ -31,9 +31,27 @@ public class Contest_0298_02 {
         return num == 0 ? ans : -1;
     }
 
+    public static int minimumNumbers1(int num, int k) {
+        if (num == 0) {
+            return 0;
+        }
+
+        // 输入：num = 58, k = 9
+        // 输出：2
+        // 58 拆成 40 + 2 * 9 -> 10的倍数 + n*k = num
+        // (58 - n * k) % 10 == 0 同模
+        for (int n = 1; n <= num && num - n * k >= 0; n++) {
+            if ((num - n * k) % 10 == 0) {
+                return n;
+            }
+        }
+        return -1;
+    }
+
     public static void main(String[] args) {
-        int num = 14;
-        int k = 4;
+        int num = 58;
+        int k = 9;
         System.out.println(minimumNumbers(num, k));
+        System.out.println(minimumNumbers1(num, k));
     }
 }
