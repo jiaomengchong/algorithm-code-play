@@ -77,8 +77,8 @@ public class Problem_0030_SubstringWithConcatenationOfAllWords {
     public static void main(String[] args) {
         // "wordgoodgoodgoodbestword"
         // ["word","good","best","good"]
-        String s = "barfoothefoobarman";
-        String[] words = new String[]{"foo","bar"};
+        String s = "lingmindraboofooowingdingbarrwingmonkeypoundcake";
+        String[] words = new String[]{"fooo","barr","wing","ding","wing"};
         System.out.println(findSubstring(s, words));
         System.out.println(findSubstring1(s, words));
     }
