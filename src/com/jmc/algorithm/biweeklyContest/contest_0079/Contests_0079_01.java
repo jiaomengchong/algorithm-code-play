@@ -1,4 +1,4 @@
-package com.jmc.algorithm.biweeklyContest;
+package com.jmc.algorithm.biweeklyContest.contest_0079;
 
 import java.util.HashMap;
 import java.util.Map;
