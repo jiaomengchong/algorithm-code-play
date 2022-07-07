@@ -1,6 +1,8 @@
 package com.jmc.algorithm.weeklyContest.Contest_0300;
 
 /**
+ * 测试链接：https://leetcode.cn/problems/decode-the-message/
+ *
  * @Author jmc
  * @Description
  * @Date 2022/7/4 20:59
