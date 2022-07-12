@@ -18,10 +18,21 @@ public class Problem_0977_SquaresOfASortedArray {
         return ans;
     }
 
+    // 双指针
     public static int[] sortedSquares1(int[] nums) {
         int N = nums.length;
         int[] ans = new int[N];
-        
+        int left = 0, right = N - 1;
+        int index = N - 1;
+        while (left <= right) {
+            if (nums[left] * nums[left] >= nums[right] * nums[right]) {
+                ans[index--] = nums[left] * nums[left];
+                left++;
+            } else {
+                ans[index--] = nums[right] * nums[right];
+                right--;
+            }
+        }
         return ans;
     }
 }
