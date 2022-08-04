@@ -1,6 +1,8 @@
 package com.jmc.algorithm.dailyChallenge;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -13,26 +15,59 @@ public class Problem_2243_CalculateDigitSumOfAString {
             queue.offer(ch - '0');
         }
 
+        if (s.length() % k != 0) {
+
+        }
+
         while (k < queue.size()) {
             int cycle = (queue.size() + k - 1) / k;
+            int total = queue.size();
             for (int i = 0; i < cycle; i++) {
                 int ans = 0;
-                for (int j = 0; j < k; j++) {
+                int limit = i == cycle - 1 ? total % k == 0 ? k : total % k : k;
+                for (int j = 0; j < limit; j++) {
                     Integer poll = queue.poll();
                     ans += poll;
                 }
-                while (ans != 0) {
-                    queue.offer(ans % 10);
-                    ans /= 10;
+
+                if (ans == 0) {
+                    queue.offer(ans);
+                } else {
+                    List<Integer> values = getValues(ans);
+                    for (int j = values.size() - 1; j >= 0; j--) {
+                        queue.offer(values.get(j));
+                    }
                 }
             }
         }
-        return "";
+
+        StringBuffer sb = new StringBuffer();
+        while (!queue.isEmpty()) {
+            sb.append(queue.poll());
+        }
+        return sb.toString();
+    }
+
+    private static List<Integer> getValues(int value) {
+        List<Integer> ret = new ArrayList<>();
+        while (value != 0) {
+            ret.add(value % 10);
+            value /= 10;
+        }
+        return ret;
     }
 
     public static void main(String[] args) {
-        String s = "11111222223";
-        int k = 3;
+        System.out.println(getValues(103));
+        String s = "01234567890";
+        int k = 10;
         System.out.println(digitSum(s, k));
+        // "01234567890"
+        // 10
+        // 15913170
+        // 61047
+        // 747
+        // 117
+        // 27
     }
 }
