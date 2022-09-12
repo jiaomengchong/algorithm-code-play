@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * 测试链接：https://leetcode.cn/problems/maximum-length-of-pair-chain/
  */
-public interface Problem_0646_MaximumLengthOfPairChain {
+public class Problem_0646_MaximumLengthOfPairChain {
     public static int findLongestChain(int[][] pairs) {
         int ans = 1;
         int N = pairs.length;
