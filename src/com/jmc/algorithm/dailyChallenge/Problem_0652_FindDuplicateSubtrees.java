@@ -24,7 +24,7 @@ public class Problem_0652_FindDuplicateSubtrees {
             this.right = right;
         }
     }
-    
+
     Map<String, TreeNode> appear = new HashMap<>();
     Set<TreeNode> sets = new HashSet<>();
     public List<TreeNode> findDuplicateSubtrees(TreeNode root) {

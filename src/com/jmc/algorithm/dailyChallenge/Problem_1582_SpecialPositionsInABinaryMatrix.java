@@ -3,7 +3,7 @@ package com.jmc.algorithm.dailyChallenge;
 /**
  * 测试链接：https://leetcode.cn/problems/special-positions-in-a-binary-matrix/
  */
-public interface Problem_1582_SpecialPositionsInABinaryMatrix {
+public class Problem_1582_SpecialPositionsInABinaryMatrix {
     public static int numSpecial(int[][] mat) {
         int ans = 0;
         int rowLen = mat.length;
